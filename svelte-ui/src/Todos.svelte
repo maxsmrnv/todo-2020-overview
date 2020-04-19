@@ -1,7 +1,9 @@
 <script>
     import {onMount} from 'svelte';
     import Todo from './TodoItem.svelte';
-    import * as requests from './requests'
+    import Button from './components/Button.svelte'
+    import * as requests from './utils/requests'
+    import Input from "./components/Input.svelte";
 
     let todos = [];
     let inputField = '';
@@ -18,9 +20,9 @@
             title: inputField
         });
         if (todo) {
-            inputField = '';
             todos = [...todos, todo]
         }
+        inputField = '';
     }
 
     const handleRemove = (id) => async () => {
@@ -40,16 +42,49 @@
 
 </script>
 
-<main>
-    <h1>TODO</h1>
-    <form on:submit|preventDefault={handleSubmit}>
-            <input type="text" bind:value={inputField}/>
-            <button disabled={!inputField} type="submit">Add</button>
-    </form>
-    {#each todos as todo (todo._id)}
-        <Todo onCheckbox={handleComplete(todo._id)} onButton={handleRemove(todo._id)} {todo}/>
-    {/each}
-</main>
+<div id="container">
+    <header>
+        <h1>TODOS</h1>
+    </header>
+    <main>
+        <div>
+            <Input autofocus placeholder="Type what you need do" bind:value={inputField}/>
+            <Button on:click={handleSubmit} disabled={!inputField}>Create</Button>
+        </div>
+        <div>
+            {#each todos as todo (todo._id)}
+                <Todo onCheckbox={handleComplete(todo._id)} onButton={handleRemove(todo._id)} {todo}/>
+            {/each}
+        </div>
+    </main>
+</div>
 
 <style>
+
+    #container {
+        background-color: #333333;
+        color: cadetblue;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    header {
+        padding: 50px;
+        height: 100px;
+        display: flex;
+        font-size: 36px;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+    main {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
 </style>
