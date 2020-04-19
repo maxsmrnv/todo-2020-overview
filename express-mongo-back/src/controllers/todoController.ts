@@ -11,25 +11,30 @@ const addTodo = async (req: Request, res: Response) => {
     title: req.body.title,
   });
   await newTodo.save();
-  res.redirect('/');
+  res.status(200)
+  res.json(newTodo)
 };
 
 const completeTodo = async (req: Request, res: Response) => {
   const todo = await TodoModel.findById(req.body.id);
   todo.isCompleted = true;
   await todo.save();
-  res.redirect('/');
+  res.status(200)
+  res.json(todo)
 };
 
 const removeTodo = async (req: Request, res: Response) => {
   const todo = await TodoModel.findById(req.body.id);
   todo.remove();
-  res.redirect('/');
+  res.status(202)
+  res.end();
+
 };
 
 const dropTodos = async (req: Request, res: Response) => {
   await TodoModel.deleteMany({});
-  res.redirect('/');
+  res.status(202)
+  res.end();
 };
 
 export { getTodos, addTodo, completeTodo, removeTodo, dropTodos };

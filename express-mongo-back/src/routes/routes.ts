@@ -4,7 +4,7 @@ import { addTodo, completeTodo, dropTodos, getTodos, removeTodo } from 'src/cont
 
 export const router = Router();
 
-router.get('/', catchErrors(getTodos));
+router.get('/tasks', catchErrors(getTodos));
 
 router.post('/add', catchErrors(addTodo));
 
